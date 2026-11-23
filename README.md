@@ -141,7 +141,7 @@ Esquema y DDL en [BASE_DATOS.md](docs/diagramas/05-entidad-relacion.md).
 
 Toda la documentación está indexada en [docs/INDICE.md](docs/INDICE.md): especificaciones,
 arquitectura, diagramas, base de datos, triaje, API interna, guía de usuario, dependencias,
-decisiones de diseño, FAQ y changelog.
+decisiones de diseño y FAQ. El historial de cambios está en [CHANGELOG.md](CHANGELOG.md).
 
 ## 🧪 Pruebas
 
