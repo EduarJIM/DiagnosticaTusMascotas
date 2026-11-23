@@ -29,10 +29,20 @@ jobs:
       - name: Compilar en Release
         run: dotnet build DiagnosticaTuMascota.sln -c Release --no-restore
 
+      - name: Ejecutar pruebas
+        run: dotnet test DiagnosticaTuMascota.sln -c Release --no-build --collect:"XPlat Code Coverage"
+
       - name: Verificar SDK y paquetes
         run: |
           dotnet --info
           dotnet list DiagnosticaTuMascota/DiagnosticaTuMascota.csproj package
+
+      - name: Subir cobertura
+        uses: actions/upload-artifact@v4
+        with:
+          name: cobertura
+          path: '**/TestResults/**/coverage.cobertura.xml'
+          if-no-files-found: warn
 
       - name: Subir artefacto
         uses: actions/upload-artifact@v4
