@@ -1,0 +1,12 @@
+# Propietarios por defecto
+* @EduarJIM
+
+# Áreas con responsable explícito
+/Core/            @EduarJIM
+/Datos/           @EduarJIM
+/Estilos/         @EduarJIM
+/Controles/       @EduarJIM
+/Formularios/     @EduarJIM
+/docs/            @EduarJIM
+/.github/         @EduarJIM
+/tests/           @EduarJIM

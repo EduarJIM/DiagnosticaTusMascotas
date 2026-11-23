@@ -1,0 +1,32 @@
+version: 2
+updates:
+  - package-ecosystem: nuget
+    directory: "/"
+    schedule:
+      interval: weekly
+      day: monday
+      time: "06:00"
+      timezone: America/Bogota
+    open-pull-requests-limit: 5
+    labels:
+      - "dependencies"
+      - "triage"
+    commit-message:
+      prefix: "chore(deps)"
+    groups:
+      sqlite-stack:
+        patterns:
+          - "Microsoft.Data.Sqlite*"
+          - "SQLitePCLRaw*"
+
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: weekly
+      day: monday
+      timezone: America/Bogota
+    labels:
+      - "dependencies"
+      - "ci"
+    commit-message:
+      prefix: "chore(ci)"
