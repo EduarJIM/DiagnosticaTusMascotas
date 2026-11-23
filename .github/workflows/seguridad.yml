@@ -1,0 +1,53 @@
+name: Seguridad de dependencias
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    - cron: '0 6 * * 1'   # lunes 06:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  audit:
+    name: Auditar paquetes NuGet
+    runs-on: windows-latest
+
+    steps:
+      - name: Obtener código
+        uses: actions/checkout@v4
+
+      - name: Instalar .NET 10
+        uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+
+      - name: Restaurar paquetes
+        run: dotnet restore DiagnosticaTuMascota.sln
+
+      - name: Buscar vulnerabilidades
+        shell: pwsh
+        run: |
+          $salida = dotnet list DiagnosticaTuMascota/DiagnosticaTuMascota.csproj package --vulnerable --include-transitive 2>&1 | Out-String
+          Write-Host $salida
+          if ($salida -match 'High|Critical') {
+            throw 'Se encontraron vulnerabilidades de severidad alta o crítica.'
+          }
+
+      - name: Paquetes desactualizados (informativo)
+        continue-on-error: true
+        run: dotnet list DiagnosticaTuMascota/DiagnosticaTuMascota.csproj package --outdated
+
+  dependency-review:
+    name: Revisión de dependencias en PR
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/dependency-review-action@v4
+        with:
+          fail-on-severity: high
