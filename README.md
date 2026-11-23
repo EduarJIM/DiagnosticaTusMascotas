@@ -1,87 +1,85 @@
-# Diagnostica tu Mascota (Windows Forms)
+# Diagnostica tu Mascota
 
-Aplicación de escritorio en C# / Windows Forms basada en el proyecto
-[Diagnostical-Pets](https://github.com/EduarJIM/Diagnostical-Pets). Se tomó la lógica
-de triaje veterinario y se adaptó a formularios de escritorio, sin la parte web
-(React, Vite, Tailwind).
+[![CI](https://github.com/EduarJIM/DiagnosticaTusMascotas/actions/workflows/ci.yml/badge.svg)](https://github.com/EduarJIM/DiagnosticaTusMascotas/actions/workflows/ci.yml)
+[![Seguridad de dependencias](https://github.com/EduarJIM/DiagnosticaTusMascotas/actions/workflows/seguridad.yml/badge.svg)](https://github.com/EduarJIM/DiagnosticaTusMascotas/actions/workflows/seguridad.yml)
+[![Licencia MIT](https://img.shields.io/badge/licencia-MIT-blue.svg)](LICENSE)
+[![.NET 10](https://img.shields.io/badge/.NET-10.0-512BD4?logo=dotnet)](https://dotnet.microsoft.com/)
+[![Windows](https://img.shields.io/badge/Windows-10%2F11-0078D6?logo=windows)](https://www.microsoft.com/windows)
+[![SQLite](https://img.shields.io/badge/SQLite-3-003B57?logo=sqlite)](https://www.sqlite.org/)
 
-> Herramienta orientativa: no sustituye el diagnóstico de un veterinario.
+Aplicación de escritorio en **C# / Windows Forms** que orienta al dueño de una mascota sobre la
+urgencia de unos síntomas mediante un motor de triaje veterinario. Guarda mascotas, consultas y
+recordatorios en una base **SQLite local**, sin servidores ni cuentas de usuario.
 
-## Requisitos
+> ⚠️ **Aviso médico:** es una herramienta orientativa. **No sustituye el diagnóstico de un
+> veterinario**. Ante una emergencia, acude de inmediato a una clínica veterinaria.
 
-- Visual Studio Community 2026 con la carga de trabajo **Desarrollo de escritorio de .NET**
-- .NET 10 SDK
+Basada en la lógica de triaje del proyecto
+[Diagnostical-Pets](https://github.com/EduarJIM/Diagnostical-Pets), adaptada a escritorio sin la
+parte web (React, Vite, Tailwind).
 
-## Cómo abrirlo
+---
 
-1. Abre `DiagnosticaTuMascota.sln` en Visual Studio.
-2. Pulsa **F5**.
+## ✨ Características
 
-Los formularios se pueden editar en el Diseñador (doble clic sobre cualquier `Frm*.cs`).
+- **Triaje en 3 niveles**: leve, moderado y crítico, con 20 síntomas repartidos en 4 categorías.
+- **Reglas clínicas**: un síntoma crítico, vómitos + diarrea, o una puntuación ≥ 4 escalan el nivel.
+- **Explicaciones y consejos**: implicación de cada síntoma, primeros auxilios y recomendaciones.
+- **Historial persistente**: consultas con síntomas, notas, severidad y filtros por mascota/nivel.
+- **Perfiles de mascotas**: datos clínicos, vacunas, antecedentes y veterinario.
+- **Alertas**: recordatorios con fecha/hora, prioridad y aviso sonoro mientras la app está abierta.
+- **Tema claro/oscuro**: interruptor sol/luna con animación, guardado en SQLite.
+- **Interfaz propia**: controles dibujados con GDI+ (esquinas redondeadas, degradados, iconos,
+  animaciones, modales y notificaciones tipo *toast*), sin librerías de UI externas.
 
-## Estructura
+## 📸 Capturas
+
+> Las capturas se añadirán en la carpeta [`docs/capturas/`](docs/) cuando se publiquen las
+> primeras versiones. Mientras tanto, puedes ver los planos de pantalla en la
+> [guía de usuario](docs/GUIA_USUARIO.md) y los flujos en los
+> [diagramas](docs/INDICE.md#diagramas).
+
+## 🧰 Requisitos
+
+| Requisito | Versión |
+|---|---|
+| Sistema operativo | Windows 10 / 11 |
+| SDK de .NET | 10.0 (fijado en [`global.json`](global.json)) |
+| Carga de trabajo | Desarrollo de escritorio de .NET (Windows Forms) |
+| IDE recomendado | Visual Studio Community 2026 |
+| Base de datos | SQLite (incluida vía NuGet, sin instalación adicional) |
+
+## 🚀 Inicio rápido
+
+### Con Visual Studio
+
+1. Clona el repositorio:
+   ```powershell
+   git clone https://github.com/EduarJIM/DiagnosticaTusMascotas.git
+   cd DiagnosticaTusMascotas
+   ```
+2. Abre `DiagnosticaTuMascota.sln`.
+3. Pulsa **F5**.
+
+### Desde la terminal
+
+```powershell
+dotnet restore DiagnosticaTuMascota.sln
+dotnet build DiagnosticaTuMascota.sln -c Release
+dotnet run --project DiagnosticaTuMascota/DiagnosticaTuMascota.csproj
+```
+
+También puedes ejecutar `./scripts/verificar.ps1` para restaurar, compilar y probar en un solo paso.
+
+La base se crea automáticamente en:
 
 ```
-DiagnosticaTuMascota/
-├── Program.cs                 Punto de entrada
-├── Core/                      Lógica del negocio (no sabe nada de ventanas)
-│   ├── Modelos.cs             Mascota, Consulta, Recordatorio, NivelSeveridad
-│   ├── MotorTriaje.cs         Diccionario de síntomas y reglas de urgencia
-│   ├── CatalogoConsejos.cs    Consejos por tema y por nivel
-│   └── ServicioAlarmas.cs     Cuándo debe sonar un recordatorio
-├── Datos/                     Base de datos SQLite
-│   ├── Almacenamiento.cs      Tablas, INSERT/UPDATE/DELETE/SELECT y preferencias
-│   └── DatosIniciales.cs      Datos de ejemplo de la primera ejecución
-├── Estilos/                   El "CSS" de la aplicación
-│   ├── Tema.cs                Colores de theme.css (modo oscuro y claro) y fuentes
-│   ├── Dibujo.cs              Esquinas redondeadas, degradados, sombras y brillos
-│   ├── Iconos.cs              Iconos (fuente de iconos de Windows + huella y destello)
-│   └── Animador.cs            Motor de animaciones (sustituye a "motion" de la web)
-├── Controles/                 Controles propios dibujados a mano
-│   ├── BotonRedondeado        Botones: primario, suave, peligro, pastilla, enlace...
-│   ├── PanelTarjeta           Tarjeta redondeada con borde y sombra
-│   ├── TarjetaFuncion         Tarjeta del inicio que crece al pasar el ratón
-│   ├── ElementoNav            Opción de la barra lateral
-│   ├── InterruptorTema        Interruptor sol/luna con efecto resorte
-│   ├── HeroAnimado            Ilustración animada del inicio
-│   ├── CajaTexto, ListaDesplegable, SelectorFecha   Campos de formulario
-│   ├── BannerUrgencia, TarjetaLista                 Bloques del resultado
-│   └── TarjetaMascota, TarjetaConsulta, ...         Tarjetas de las listas
-└── Formularios/
-    ├── Base/
-    │   ├── PaginaBase         Base de las páginas que van dentro de la ventana
-    │   ├── ModalBase          Base de las ventanas modales (fondo oscurecido)
-    │   └── Dialogos           Confirmaciones y avisos con el estilo de la app
-    ├── FrmPrincipal           Barra lateral + área de contenido + alarmas
-    ├── FrmInicio              Bienvenida, accesos y aviso médico
-    ├── FrmSintomas            Diagnóstico, paso 1: elegir síntomas
-    ├── FrmAsignarConsulta     Diagnóstico, paso 2: mascota y notas
-    ├── FrmResultado           Nivel de urgencia, implicaciones y acciones
-    ├── FrmMascotas            Tarjetas de mascotas
-    ├── FrmEditarMascota       Modal de alta/edición con historial de la mascota
-    ├── FrmHistorial           Consultas guardadas con filtros
-    ├── FrmRecordatorios       Alertas y recordatorios
-    ├── FrmEditarRecordatorio  Modal "Crear Alerta"
-    ├── FrmConsejos            Consejos de cuidado y diccionario de síntomas
-    ├── FrmAlarma              Aviso cuando llega la hora de un recordatorio
-    └── FrmConfirmar           Diálogo de confirmación
+%AppData%\DiagnosticaTuMascota\diagnostica.db
 ```
 
-## Diseño (basado en la versión web)
+La primera vez se importa un `datos.json` antiguo si existe; si no, se cargan datos de ejemplo.
 
-El aspecto reproduce el front-end React del repositorio original:
-
-- **Colores**: los de `theme.css`. Por defecto se usa el modo oscuro; el interruptor sol/luna
-  de la barra lateral cambia al claro, y la elección se guarda en SQLite.
-- **Layout**: barra lateral fija a la izquierda y páginas a la derecha, como las rutas de la web.
-- **Animaciones**: las páginas aparecen subiendo y con un fundido, las tarjetas crecen al pasar
-  el ratón, la barra de progreso se llena sola, el logotipo late, el círculo del inicio flota con
-  anillos y un destello que orbita, la campana de la alarma se sacude y los modales aparecen
-  sobre un fondo oscurecido. Hay notificaciones tipo "toast" arriba a la derecha.
-
-Todo está hecho con Windows Forms estándar y GDI+ (`OnPaint`), sin librerías externas de interfaz.
-
-## Navegación
+## 🧭 Navegación
 
 ```
 FrmPrincipal (barra lateral)
@@ -93,41 +91,30 @@ FrmPrincipal (barra lateral)
 └── Consejos        → FrmConsejos
 ```
 
-Las páginas son formularios que se muestran **dentro** de la ventana principal
-(`TopLevel = false`). Cada página avisa con eventos (`Continuar`, `Volver`, `Generar`...)
-y `FrmPrincipal` decide a dónde ir. Los modales se abren con `MostrarSobre(this)`.
-
-## Base de datos (SQLite)
-
-Se usa el paquete NuGet `Microsoft.Data.Sqlite`. No hay que instalar ningún servidor:
-la base es un solo archivo, que se crea solo la primera vez que se abre la app:
+## 🏗️ Arquitectura
 
 ```
-%AppData%\DiagnosticaTuMascota\diagnostica.db
+DiagnosticaTusMascota/
+├── Program.cs          Punto de entrada ([STAThread])
+├── Core/               Lógica de negocio, sin referencias a Windows Forms
+│   ├── Modelos.cs
+│   ├── MotorTriaje.cs
+│   ├── CatalogoConsejos.cs
+│   └── ServicioAlarmas.cs
+├── Datos/              Acceso a SQLite y datos iniciales
+├── Estilos/            Tema, dibujo GDI+, iconos y animaciones
+├── Controles/          Controles propios (botones, tarjetas, campos...)
+└── Formularios/        Páginas, modales y diálogos
 ```
 
-| Tabla | Contenido |
-|---|---|
-| `Mascotas` | Perfil y datos clínicos de cada mascota |
-| `Consultas` | Cada diagnóstico: fecha, mascota, notas, severidad (1-3), recomendación |
-| `ConsultaSintomas` | Síntomas de cada consulta (relación 1 a muchos, `ON DELETE CASCADE`) |
-| `Recordatorios` | Título, mascota, mensaje, prioridad y fecha/hora |
+Las páginas son formularios `TopLevel = false` que viven dentro de `FrmPrincipal`; se comunican
+mediante eventos (`Continuar`, `Volver`, `Generar`...). Los modales se muestran con `MostrarSobre`.
 
-`Consultas.Mascota` guarda el nombre como texto, no una clave foránea. Así una consulta
-puede ser de una mascota no registrada, y el historial se conserva si borras la mascota.
+Consulta la [arquitectura completa](docs/ARQUITECTURA.md), la
+[referencia de funciones](docs/REFERENCIA_API.md) y los
+[diagramas Mermaid](docs/INDICE.md#diagramas).
 
-Todo el SQL está en `Datos\Almacenamiento.cs`. Las consultas usan parámetros
-(`$nombre`, `$id`...) para evitar inyección SQL. El filtro del Historial se hace en la
-propia base con `BuscarConsultas(mascota, nivel)`.
-
-La primera vez, si existe el `datos.json` de la versión anterior, sus datos se importan
-a la base. Si no existe, se cargan los datos de ejemplo.
-
-Para ver o editar la base a mano puedes usar [DB Browser for SQLite](https://sqlitebrowser.org/).
-
-## Reglas del triaje
-
-Cada síntoma tiene un peso: 1 (leve), 2 (moderado) o 3 (crítico).
+## 📊 Reglas de triaje
 
 | Condición | Resultado |
 |---|---|
@@ -136,9 +123,45 @@ Cada síntoma tiene un peso: 1 (leve), 2 (moderado) o 3 (crítico).
 | Algún síntoma con peso 2, o suma de pesos ≥ 4 | **MODERADO** |
 | Resto | **LEVE** |
 
-## Diferencias con el original
+Detalle completo en [TRIAJE.md](docs/TRIAJE.md).
 
-- Sin inicio de sesión ni cuentas: es una app local de un solo usuario.
-- El `localStorage` del navegador se reemplaza por una base de datos SQLite.
-- Las alarmas del navegador se reemplazan por un `Timer` y un `MessageBox` con sonido.
-- Se añadió el formulario de **Consejos** y filtros en el historial.
+## 🗄️ Base de datos
+
+| Tabla | Contenido |
+|---|---|
+| `Mascotas` | Perfil y datos clínicos |
+| `Consultas` | Fecha, mascota, notas, severidad (1-3) y recomendación |
+| `ConsultaSintomas` | Síntomas por consulta (`ON DELETE CASCADE`) |
+| `Recordatorios` | Título, mascota, mensaje, prioridad y fecha/hora |
+| `Preferencias` | Clave/valor (por ejemplo, el tema elegido) |
+
+Esquema y DDL en [BASE_DATOS.md](docs/diagramas/05-entidad-relacion.md).
+
+## 📚 Documentación
+
+Toda la documentación está indexada en [docs/INDICE.md](docs/INDICE.md): especificaciones,
+arquitectura, diagramas, base de datos, triaje, API interna, guía de usuario, dependencias,
+decisiones de diseño, FAQ y changelog.
+
+## 🧪 Pruebas
+
+```powershell
+dotnet test DiagnosticaTuMascota.sln -c Release
+```
+
+La suite cubre el motor de triaje. Más información en [docs/PRUEBAS.md](docs/PRUEBAS.md).
+
+## 🤝 Contribuir
+
+¿Quieres ayudar? Lee [docs/CONTRIBUCION.md](docs/CONTRIBUCION.md) y
+[docs/CODIGO_CONDUCTA.md](docs/CODIGO_CONDUCTA.md). Los issues y PR son bienvenidos.
+
+## 📄 Licencia
+
+Distribuido bajo licencia [MIT](LICENSE).
+
+## 🙏 Créditos
+
+- Lógica de triaje original: [EduarJIM/Diagnostical-Pets](https://github.com/EduarJIM/Diagnostical-Pets).
+- Interfaz: Windows Forms + GDI+ estándar de .NET.
+- Base de datos: [Microsoft.Data.Sqlite](https://www.nuget.org/packages/Microsoft.Data.Sqlite).
