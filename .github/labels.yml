@@ -1,0 +1,33 @@
+- name: bug
+  color: d73a4a
+  description: Comportamiento inesperado o error
+- name: enhancement
+  color: a2eeef
+  description: Nueva funcionalidad o mejora
+- name: documentation
+  color: 0075ca
+  description: Cambios o lagunas en la documentación
+- name: triage
+  color: fbca04
+  description: Pendiente de clasificar
+- name: dependencies
+  color: 0366d6
+  description: Actualizaciones de paquetes
+- name: ci
+  color: 0052cc
+  description: Integración continua y workflows
+- name: good first issue
+  color: 7057ff
+  description: Buen punto de entrada para contribuir
+- name: help wanted
+  color: 008672
+  description: Se agradece ayuda de la comunidad
+- name: question
+  color: d876e3
+  description: Pregunta o duda
+- name: wontfix
+  color: ffffff
+  description: No se abordará
+- name: invalid
+  color: e4e669
+  description: No válido o duplicado
