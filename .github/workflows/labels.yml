@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Obtener código
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Sincronizar
         uses: micnncim/action-label-syncer@v1
