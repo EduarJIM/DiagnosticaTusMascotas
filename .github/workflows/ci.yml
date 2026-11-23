@@ -38,14 +38,14 @@ jobs:
           dotnet list DiagnosticaTuMascota/DiagnosticaTuMascota.csproj package
 
       - name: Subir cobertura
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: cobertura
           path: '**/TestResults/**/coverage.cobertura.xml'
           if-no-files-found: warn
 
       - name: Subir artefacto
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: DiagnosticaTuMascota-Release
           path: DiagnosticaTuMascota/bin/Release/net10.0-windows/
