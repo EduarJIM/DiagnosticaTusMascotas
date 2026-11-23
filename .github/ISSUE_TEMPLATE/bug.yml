@@ -1,0 +1,51 @@
+name: 🐞 Error
+description: Informar de un comportamiento inesperado
+title: "[Bug]: "
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Gracias por reportar. Recuerda que esta app es orientativa y no sustituye a un veterinario.
+  - type: textarea
+    id: descripcion
+    attributes:
+      label: ¿Qué ocurrió?
+      description: Describe el error con claridad.
+    validations:
+      required: true
+  - type: textarea
+    id: pasos
+    attributes:
+      label: Pasos para reproducirlo
+      placeholder: |
+        1. Abrir la app
+        2. Ir a ...
+        3. Hacer clic en ...
+    validations:
+      required: true
+  - type: textarea
+    id: esperado
+    attributes:
+      label: ¿Qué esperabas?
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Versión de Windows y de .NET
+      placeholder: "Windows 11 23H2 / .NET 10.0.402"
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Registros o capturas
+      render: shell
+  - type: checkboxes
+    id: aviso
+    attributes:
+      label: Comprobaciones
+      options:
+        - label: Busqué issues similares antes de abrir este.
+          required: true

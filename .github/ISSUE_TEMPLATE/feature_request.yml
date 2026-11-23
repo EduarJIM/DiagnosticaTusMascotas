@@ -1,0 +1,40 @@
+name: ✨ Nueva funcionalidad
+description: Proponer una mejora o característica
+title: "[Feature]: "
+labels: ["enhancement", "triage"]
+body:
+  - type: textarea
+    id: problema
+    attributes:
+      label: ¿Qué problema resuelve?
+    validations:
+      required: true
+  - type: textarea
+    id: solucion
+    attributes:
+      label: Solución propuesta
+    validations:
+      required: true
+  - type: textarea
+    id: alternativas
+    attributes:
+      label: Alternativas consideradas
+  - type: dropdown
+    id: area
+    attributes:
+      label: Área afectada
+      options:
+        - Core / triaje
+        - Datos / SQLite
+        - Interfaz / controles
+        - Documentación
+        - CI / herramientas
+    validations:
+      required: true
+  - type: checkboxes
+    id: aviso
+    attributes:
+      label: Comprobaciones
+      options:
+        - label: Esta mejora no sustituye el criterio de un veterinario.
+          required: true

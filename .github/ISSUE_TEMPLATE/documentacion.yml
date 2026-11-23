@@ -1,0 +1,22 @@
+name: 📚 Documentación
+description: Reportar un error o laguna en la documentación
+title: "[Docs]: "
+labels: ["documentation"]
+body:
+  - type: input
+    id: archivo
+    attributes:
+      label: Archivo o página afectada
+      placeholder: "docs/TRIAJE.md"
+    validations:
+      required: true
+  - type: textarea
+    id: problema
+    attributes:
+      label: ¿Qué está mal o falta?
+    validations:
+      required: true
+  - type: textarea
+    id: sugerencia
+    attributes:
+      label: Propuesta de corrección
